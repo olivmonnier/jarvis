@@ -1,4 +1,5 @@
 var express = require('express'),
+    path = require('path'),
     bodyParser = require('body-parser'),
     RiveScript = require('rivescript');
 
@@ -14,12 +15,20 @@ function success_handler(loadcount) {
 	var app = express();
 
 	// Parse application/json inputs.
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'jade');
 	app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(express.static(path.join(__dirname, 'public')));
 	app.set("json spaces", 4);
 
 	// Set up routes.
 	app.post("/reply", getReply);
-	app.get("/", showUsage);
+	app.get("/", function(req, res) {
+    return res.render('index', {
+      title: 'Jarvis Home'
+    });
+  });
 	app.get("*", showUsage);
 
 	// Start listening.

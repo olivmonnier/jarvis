@@ -1,0 +1,60 @@
+html, body {
+  height: 100%; }
+
+body {
+  margin: 0;
+  padding: 0; }
+
+.container {
+  margin-left: auto;
+  margin-right: auto; }
+  @media screen and (min-width: 0) {
+    .container {
+      width: 320px; } }
+  @media screen and (min-width: 35.5em) {
+    .container {
+      width: 568px; } }
+  @media screen and (min-width: 48em) {
+    .container {
+      width: 750px; } }
+  @media screen and (min-width: 80em) {
+    .container {
+      width: 1170px; } }
+
+.full-width {
+  width: 100%; }
+
+.main-content {
+  height: 100%; }
+
+.discuss {
+  height: 80%;
+  padding-bottom: 10px;
+  overflow-y: auto; }
+
+.editor {
+  height: 20%; }
+  .editor textarea {
+    height: 100%; }
+
+.msg-container .msg-right, .msg-container .msg-left {
+  display: flex; }
+
+.msg-container .msg-right {
+  justify-content: flex-end; }
+
+.msg-container .msg-left {
+  justify-content: flex-start; }
+
+.msg-container .msg-text {
+  max-width: 80%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px; }
+
+.msg-container .msg-left .msg-text {
+  border-radius: 0 4px 4px 4px; }
+
+.msg-container .msg-right .msg-text {
+  border-radius: 4px 0 4px 4px; }
