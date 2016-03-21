@@ -53,18 +53,23 @@ function getReply(req, res) {
 		}
 	}
 
+  // Get all the user's vars back out of the bot to include in the response.
+  vars = bot.getUservars(username);
+
 	// Get a reply from the bot.
-	var reply = bot.reply(username, message, this);
+  bot.replyAsync(username, message).then(function(reply) {
+    // Send the JSON response.
+  	res.json({
+  		"status": "ok",
+  		"reply": reply,
+  		"vars": vars
+  	}).end();
+  }).catch(function(error) {
+    console.log('Error: ' + error);
+  });
 
-	// Get all the user's vars back out of the bot to include in the response.
-	vars = bot.getUservars(username);
 
-	// Send the JSON response.
-	res.json({
-		"status": "ok",
-		"reply": reply,
-		"vars": vars
-	});
+
 }
 
 // All other routes shows the usage to test the /reply route.
