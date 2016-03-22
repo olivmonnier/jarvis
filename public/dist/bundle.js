@@ -16340,7 +16340,7 @@ var msgRightTemplate = (0, _template2.default)('<div class="msg-container">\n   
       (0, _jquery2.default)('.editor input').val('');
 
       _jquery2.default.post('/reply', { 'username': 'user', 'message': value }).done(function (response) {
-        (0, _jquery2.default)('.discuss').append(msgLeftTemplate({ msg: response }));
+        (0, _jquery2.default)('.discuss').append(msgLeftTemplate({ msg: response.reply }));
       });
     }
   });

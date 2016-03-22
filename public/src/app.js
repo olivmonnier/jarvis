@@ -32,7 +32,7 @@ $(document).ready(() => {
       $.post('/reply', {'username': 'user', 'message': value})
         .done(response => {
           $('.discuss')
-            .append(msgLeftTemplate({msg: response}));
+            .append(msgLeftTemplate({msg: response.reply}));
         });
     }
   });
