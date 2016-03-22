@@ -1,19 +1,13 @@
-var source = require('vinyl-source-stream'),
-    streamify = require('gulp-streamify'),
-    rename = require('gulp-rename'),
-    uglify = require('gulp-uglify'),
-    eslint = require('gulp-eslint'),
-    sass = require('gulp-sass'),
+var sass = require('gulp-sass'),
     server = require('gulp-express'),
-    babel = require('gulp-babel'),
+    sourcemaps = require('gulp-sourcemaps'),
+    source = require('vinyl-source-stream'),
+    buffer = require('vinyl-buffer'),
+    browserify = require('browserify'),
+    watchify = require('watchify'),
+    babel = require('babelify'),
     gulp = require('gulp');
 
-gulp.task('lint', function() {
-  return gulp.src(['public/**/*.js'])
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failOnError());
-});
 
 gulp.task('sass', function() {
   return gulp.src('./public/sass/**/*.scss')
@@ -21,21 +15,39 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('./public/dist/'));
 });
 
-gulp.task('babelify', function() {
-  return gulp.src('public/src/app.js')
-  	.pipe(babel({
-  		presets: ['es2015']
-  	}))
-    .pipe(streamify(uglify()))
-    .pipe(rename('bundle.js'))
-  	.pipe(gulp.dest('public/dist'));
-});
+function compile(watch) {
+  var bundler = watchify(browserify('./public/src/app.js', { debug: true }).transform(babel.configure({presets: ["es2015"]})));
 
-gulp.task('default', ['babelify', 'sass'], function() {
+  function rebundle() {
+    bundler.bundle()
+      .on('error', function(err) { console.error(err); this.emit('end'); })
+      .pipe(source('bundle.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({ loadMaps: true }))
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./public/dist'));
+  }
+
+  if (watch) {
+    bundler.on('update', function() {
+      console.log('-> bundling...');
+      rebundle();
+    });
+  }
+
+  rebundle();
+}
+
+function watch() {
+  return compile(true);
+};
+
+gulp.task('watch', function() { return watch(); });
+
+gulp.task('default', ['watch', 'sass'], function() {
   server.run(['server.js']);
 
-  gulp.watch('./public/src/**/*.js', ['babelify']);
   gulp.watch(['./public/sass/**/*.scss'], ['sass']);
 });
 
-gulp.task('build', ['lint', 'babelify', 'sass']);
+gulp.task('build', ['sass']);

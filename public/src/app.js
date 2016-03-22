@@ -1,6 +1,6 @@
 'use strict';
 
-import template from 'lodash/string/template';
+import template from 'lodash/fp/template';
 import $ from 'jquery';
 
 const msgLeftTemplate = template(`
