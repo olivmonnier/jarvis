@@ -1,9 +1,11 @@
 var express = require('express'),
     path = require('path'),
     bodyParser = require('body-parser'),
+    rsServices = require('./services'),
     RiveScript = require('rivescript');
 
 var bot = new RiveScript();
+rsServices(bot);
 bot.loadDirectory("brain", success_handler, error_handler);
 
 function success_handler(loadcount) {
