@@ -26,17 +26,28 @@ body {
 
 .full-width { width: 100%; }
 
-.main-content { height: 100%; }
+.hidden-xs {
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+
+.main-content {
+  height: 100%;
+  > .pure-g {
+    height: 100%;
+    > .pure-u-1 { height: 100%; }
+  }
+}
 
 .discuss {
-  height: 80%;
-  padding-bottom: 10px;
+  height: calc(80% - 10px);
+  margin-bottom: 10px;
   overflow-y: auto;
 }
 
 .editor {
   height: 20%;
-
   textarea { height: 100%; }
 }
 

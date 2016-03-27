@@ -69,18 +69,19 @@ function getReply(req, res) {
 
 	// Get a reply from the bot.
   bot.replyAsync(username, message).then(function(reply) {
+    reply = isJsonString(reply) ? JSON.parse(reply) : reply;
+    var answer = (typeof reply === 'object') ? reply.msg : reply;
+    var ext = (typeof reply === 'object') ? reply.ext : '';
     // Send the JSON response.
   	res.json({
   		"status": "ok",
-  		"reply": reply,
+  		"reply": answer,
+      "ext": ext,
   		"vars": vars
   	}).end();
   }).catch(function(error) {
     console.log('Error: ' + error);
   });
-
-
-
 }
 
 // All other routes shows the usage to test the /reply route.
@@ -106,4 +107,13 @@ function error(res, message) {
 		"status": "error",
 		"message": message
 	});
+}
+
+function isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
