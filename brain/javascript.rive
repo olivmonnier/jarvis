@@ -1,4 +1,4 @@
 ! version = 2.0
 
-+ test javascript
-- <call>hellojs</call>
++ <bot name> search on youtube *
+- <call>youtube <star></call>

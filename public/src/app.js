@@ -24,18 +24,22 @@ $(document).ready(() => {
     if (e.keyCode === 13 )
       e.preventDefault();
     let value = $('.editor input').val();
-    let $discuss = $('.discuss')[0];
+    let $discuss = $('.discuss');
 
     if (e.keyCode === 13 && value) {
-      $('.discuss').append(msgRightTemplate({msg: value}));
+      $discuss
+        .append(msgRightTemplate({msg: value}))
+        .scrollTop($discuss[0].scrollHeight);
       $('.editor input').val('');
-      $discuss.scrollTop = $discuss.scrollHeight;
 
       $.post('/reply', {'username': 'user', 'message': value})
         .done(response => {
-          $('.discuss')
-            .append(msgLeftTemplate({msg: response.reply}));
-          $discuss.scrollTop = $discuss.scrollHeight;
+          $discuss
+            .append(msgLeftTemplate({msg: response.reply}))
+            .scrollTop($discuss[0].scrollHeight);
+
+          if (response.ext)
+            $('.extension').html(response.ext);
         });
     }
   });
