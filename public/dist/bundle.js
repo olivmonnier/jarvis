@@ -16334,13 +16334,16 @@ var msgRightTemplate = (0, _template2.default)('<div class="msg-container">\n   
   (0, _jquery2.default)(document).on('keypress', '.editor input', function (e) {
     if (e.keyCode === 13) e.preventDefault();
     var value = (0, _jquery2.default)('.editor input').val();
+    var $discuss = (0, _jquery2.default)('.discuss')[0];
 
     if (e.keyCode === 13 && value) {
       (0, _jquery2.default)('.discuss').append(msgRightTemplate({ msg: value }));
       (0, _jquery2.default)('.editor input').val('');
+      $discuss.scrollTop = $discuss.scrollHeight;
 
       _jquery2.default.post('/reply', { 'username': 'user', 'message': value }).done(function (response) {
         (0, _jquery2.default)('.discuss').append(msgLeftTemplate({ msg: response.reply }));
+        $discuss.scrollTop = $discuss.scrollHeight;
       });
     }
   });

@@ -23,16 +23,19 @@ $(document).ready(() => {
   $(document).on('keypress', '.editor input', (e) => {
     if (e.keyCode === 13 )
       e.preventDefault();
-    let value = $('.editor input').val()
+    let value = $('.editor input').val();
+    let $discuss = $('.discuss')[0];
 
     if (e.keyCode === 13 && value) {
       $('.discuss').append(msgRightTemplate({msg: value}));
       $('.editor input').val('');
+      $discuss.scrollTop = $discuss.scrollHeight;
 
       $.post('/reply', {'username': 'user', 'message': value})
         .done(response => {
           $('.discuss')
             .append(msgLeftTemplate({msg: response.reply}));
+          $discuss.scrollTop = $discuss.scrollHeight;
         });
     }
   });
