@@ -1,8 +1,8 @@
 var Youtube = require('youtube-node');
 var template = require('lodash/fp/template');
 
-var youtube = new Youtube();
-youtube.setKey('AIzaSyA8UFoMWx8wWQxkCgri95mrXqwVILcFXqk');
+var yt = new Youtube();
+yt.setKey('AIzaSyA8UFoMWx8wWQxkCgri95mrXqwVILcFXqk');
 
 var ytListTemplate = template('<ul class="list-unstyled">' +
   '<% data.videos.forEach(function(video) { %>' +
@@ -17,7 +17,7 @@ var ytListTemplate = template('<ul class="list-unstyled">' +
 module.exports = function(rs) {
   rs.setSubroutine('youtube', function(rs, args) {
     return new rs.Promise(function(resolve, reject) {
-      youtube.search(args[0], 10, function(error, result) {
+      yt.search(args[0], 10, function(error, result) {
         if (error) return console.log(error);
 
         resolve(JSON.stringify({
