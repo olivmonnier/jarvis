@@ -28,6 +28,10 @@ body {
   .hidden-xs {
     display: none; } }
 
+.list-unstyled {
+  padding-left: 0;
+  list-style: none; }
+
 .main-content {
   height: 100%; }
   .main-content > .pure-g {
@@ -44,6 +48,12 @@ body {
   height: 20%; }
   .editor textarea {
     height: 100%; }
+
+.extension {
+  padding-left: 15px;
+  padding-right: 15px;
+  height: 100%;
+  overflow-y: auto; }
 
 .msg-container .msg-right, .msg-container .msg-left {
   display: flex; }
