@@ -1,5 +1,6 @@
 var express = require('express'),
     path = require('path'),
+    fs = require('fs'),
     bodyParser = require('body-parser'),
     rsServices = require('./services'),
     RiveScript = require('rivescript');
@@ -49,6 +50,7 @@ function getReply(req, res) {
 	var username = req.body.username;
 	var message  = req.body.message;
 	var vars     = req.body.vars;
+  var filename = "./users/" + username.toLowerCase() + ".json";
 
 	// Make sure username and message are included.
 	if (typeof(username) === undefined || typeof(message) === undefined) {
@@ -66,6 +68,24 @@ function getReply(req, res) {
 
   // Get all the user's vars back out of the bot to include in the response.
   vars = bot.getUservars(username);
+
+  if (!vars) {
+    try {
+      var stats = fs.statSync(filename);
+
+      if (stats) {
+        var jsonText = fs.readFileSync(filename);
+        vars = JSON.parse(jsonText);
+        bot.setUservars(username, vars);
+      }
+    } catch(e) {}
+  }
+
+  fs.writeFile(filename, JSON.stringify(vars, null, 2), function(err) {
+    if (err) {
+      console.log("Failed to write file", filename, err);
+    }
+  });
 
 	// Get a reply from the bot.
   bot.replyAsync(username, message).then(function(reply) {

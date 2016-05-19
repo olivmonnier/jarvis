@@ -2,10 +2,18 @@ extends ./layout
 
 block content
   .container.main-content
-    .pure-g
-      .pure-u-1.pure-u-md-1-3
+    .row
+      .col-xs-12.col-md-4
         .discuss
-        form.pure-form.editor
-          input.pure-input-rounded.full-width(type="text")
-      .pure-u-1.pure-u-md-2-3.hidden-xs
-        .extension
+        form.editor
+          .form-group
+            input.form-control(type="text")
+          .form-group
+            button.btn.btn-xs.btn-primary(type="button") Add a shortcut
+      .col-xs-12.col-md-8.hidden-xs
+        ul.nav.nav-tabs(role="tablist")
+          li.active(role="presentation"): a(href="#shortcuts", aria-controls="shortcuts", role="tab", data-toggle="tab") Shortcuts
+          li(role="presentation"): a(href="#view", aria-controls="view", role="tab", data-toggle="tab") View
+        .tab-content
+          #shortcuts.tab-pane.active(role="tabpanel")
+          #view.tab-pane.extension(role="tabpanel")

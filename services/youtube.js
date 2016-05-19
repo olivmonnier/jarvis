@@ -4,15 +4,24 @@ var template = require('lodash/fp/template');
 var yt = new Youtube();
 yt.setKey('AIzaSyA8UFoMWx8wWQxkCgri95mrXqwVILcFXqk');
 
-var ytListTemplate = template('<ul class="list-unstyled">' +
-  '<% data.videos.forEach(function(video) { %>' +
-    '<li>' +
-      '<h4><%= video.snippet.title %> - <small><%= video.snippet.channelTitle %></small></h4>' +
-      '<p><small><%= video.snippet.description %></small></p>' +
-      '<iframe id="ytplayer" type="text/html" width="380" height="200" src="http://www.youtube.com/embed/<%= video.id.videoId %>" frameborder="0"/>' +
-    '</li>' +
-  '<% }) %>' +
-'</ul>');
+var ytListTemplate = template(
+  '<div class="panel panel-default">' +
+    '<div class="panel-body">' +
+      '<% data.videos.forEach(function(video) { %>' +
+        '<div class="media">' +
+          '<div class="media-left media-middle">' +
+            '<iframe id="ytplayer" type="text/html" width="380" height="200" src="http://www.youtube.com/embed/<%= video.id.videoId %>" frameborder="0"/>' +
+          '</div>' +
+          '<div class="media-body">' +
+            '<h4 class="media-heading"><%= video.snippet.title %> - <small><%= video.snippet.channelTitle %></small></h4>' +
+            '<p><small><%= video.snippet.description %></small></p>' +
+          '</div>' +
+        '</div>' +
+      '<% }) %>' +
+    '</div>' +
+  '</div>'
+);
+
 
 module.exports = function(rs) {
   rs.setSubroutine('youtube', function(rs, args) {

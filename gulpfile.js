@@ -1,4 +1,5 @@
 var sass = require('gulp-sass'),
+    concat = require('gulp-concat'),
     server = require('gulp-express'),
     sourcemaps = require('gulp-sourcemaps'),
     source = require('vinyl-source-stream'),
@@ -41,13 +42,21 @@ function compile(watch) {
 function watch() {
   return compile(true);
 };
+gulp.task('vendor', function() {
+    return gulp.src([
+      './node_modules/jquery/dist/jquery.js',
+      './node_modules/bootstrap-sass/assets/javascripts/bootstrap.js'
+    ])
+      .pipe(concat('vendor.js'))
+      .pipe(gulp.dest('./public/dist'))
+});
 
 gulp.task('watch', function() { return watch(); });
 
-gulp.task('default', ['watch', 'sass'], function() {
+gulp.task('default', ['watch', 'sass', 'vendor'], function() {
   server.run(['server.js']);
 
   gulp.watch(['./public/sass/**/*.scss'], ['sass']);
 });
 
-gulp.task('build', ['sass']);
+gulp.task('build', ['sass', 'vendor']);

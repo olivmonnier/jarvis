@@ -177,47 +177,6 @@
 ! person you     = I
 ! person i       = you
 
-// Thesaurus
-! array a = a an
-! array afraid = afraids|fright|frightend|frights|scared|spooked|
-! array bring = bring|brings|
-! array chatbot = bot|computer|program|software|virtual|
-! array clothes = clothes|clothing|garments|
-! array do = do|does|doing|
-! array feel = feel|feels|
-! array femalenoun = babe|chick|female|girl|lady|woman|women|
-! array gay = faggot|gay|homosexual|lesbian|queer|
-! array has = got|has|have|own|
-! array height = long|tall|thick|wide|
-! array i = i|me|my|myself|
-! array is = am|are|is|
-! array like = adore|adores|like|likes|love|loves|
-! array lol = ha ha|hah|haha|hahaha|lmao|lol|rofl|rotfl|
-! array make = create|creating|made|make|makes|making|
-! array malenoun = boi|boy|dude|gentleman|gentlemen|guy|male|man|men|
-! array mennoun = bois|boys|dudes|gentlemen|guys|males|men|
-! array no = nah|nay|no|nope|
-! array phone = cell|contact|mobile|telephone|
-! array pic = image|photo|pic|picture|
-! array pretty = beautiful|gorgeous|pretty|
-! array purpose = goal|objective|
-! array say = say|speak|talk|
-! array study = study|studying|studys|
-! array talk = talk|talking|talks|
-! array usa = united states|usa|
-! array walk = stolls|stroll|walks|
-! array was = was|were|
-! array we = us|we|
-! array weird = strange|weird|
-! array womennoun = babes|chicks|females|girls|ladies|women|
-! array yes = absolutely|of course|ya|yea|yeah|yep|yes|yup|
-
-// Collections
-! array animal = cat|chicken|cow|dog|pig|
-! array colour = black|black|blue|blue|cyan|dark blue|dark cyan|dark fuchsia|dark gray|dark magenta|dark orange|dark red|dark yellow|fuchsia|gray|green|light blue|light cyan|light fuchsia|light gray|light magenta|light orange|light red|light yellow|magenta|maroon|orange|purple|red|silver|turquoise|white|white|yellow|
-! array measure = centimeter|centimeters|cm|inch|inches|kilometer|kilometers|meter|meters|millimeter|millimeters|mm|
-! array meat = beef|chicken|pork|turkey|
-
 // Spelling
 ! sub aberation = aberration
 ! sub abondon = abandon

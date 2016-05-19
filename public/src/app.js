@@ -1,46 +1,39 @@
 'use strict';
 
-import template from 'lodash/fp/template';
-import $ from 'jquery';
-
-const msgLeftTemplate = template(`
-  <div class="msg-container">
-    <div class="msg-left">
-      <div class="msg-text"><%= msg %></div>
-    </div>
-  </div>
-`);
-
-const msgRightTemplate = template(
-  `<div class="msg-container">
-    <div class="msg-right">
-      <div class="msg-text"><%= msg %></div>
-    </div>
-  </div>`
-);
+import { renderMsgLeft, renderMsgRight } from './utils/discussion';
 
 $(document).ready(() => {
+  let username = '';
+  let $discuss = $('.discuss');
+
+  renderMsgLeft($discuss, "What is your name ?");
+
   $(document).on('keypress', '.editor input', (e) => {
     if (e.keyCode === 13 )
       e.preventDefault();
     let value = $('.editor input').val();
-    let $discuss = $('.discuss');
 
     if (e.keyCode === 13 && value) {
-      $discuss
-        .append(msgRightTemplate({msg: value}))
-        .scrollTop($discuss[0].scrollHeight);
+      renderMsgRight($discuss, value);
+
       $('.editor input').val('');
 
-      $.post('/reply', {'username': 'user', 'message': value})
-        .done(response => {
-          $discuss
-            .append(msgLeftTemplate({msg: response.reply}))
-            .scrollTop($discuss[0].scrollHeight);
+      if (!username) {
+        username = value;
+        $.post('/reply', {'username': username, 'message': 'my name is ' + username})
+          .done(response => {
+            renderMsgLeft($discuss, response.reply);
+          });
+      } else {
+        $.post('/reply', {'username': username, 'message': value})
+          .done(response => {
+            renderMsgLeft($discuss, response.reply);
 
-          if (response.ext)
-            $('.extension').html(response.ext);
-        });
+            if (response.ext)
+              $('.extension').html(response.ext);
+              $('.nav-tabs a[href="#view"]').tab('show');
+          });
+      }
     }
   });
 });
