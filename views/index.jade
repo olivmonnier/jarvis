@@ -9,9 +9,27 @@ block content
           .form-group
             input.form-control(type="text")
           .form-group
-            button.btn.btn-xs.btn-primary(type="button") Add a shortcut
+            button.btn.btn-xs.btn-primary.btn-add-shortcut(type="button", data-toggle="modal", data-target="#addShortcutDialog") Add a shortcut
+            
+        #addShortcutDialog.modal.fade(tabindex="-1", role="dialog")
+          .modal-dialog(role="document")
+            .modal-content
+              .modal-header
+                button.close(type="button", data-dismiss="modal")
+                  span(aria-hidden="true") &times;
+                h4 Add a shortcut
+              .modal-body
+                form
+                  .form-group
+                    label.control-label(for="shortcut-name") Name
+                    input#shortcut-name.form-control(type="text", placeholder="Shortcut name")
+                  .form-group
+                    label.control-label(for="shortcut-request") Request
+                    textarea#shortcut-request.form-control
+              .modal-footer.text-center
+                button#shortcut-submit.btn.btn-primary(type="button") Submit
       .col-xs-12.col-md-8.hidden-xs
-        ul.nav.nav-tabs(role="tablist")
+        ul.nav.nav-tabs.nav-justified(role="tablist")
           li.active(role="presentation"): a(href="#shortcuts", aria-controls="shortcuts", role="tab", data-toggle="tab") Shortcuts
           li(role="presentation"): a(href="#view", aria-controls="view", role="tab", data-toggle="tab") View
         .tab-content

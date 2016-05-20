@@ -6472,13 +6472,27 @@ module.exports = lodash;
 },{"./_LazyWrapper":2,"./_LodashWrapper":3,"./_baseLodash":43,"./_wrapperClone":133,"./isArray":151,"./isObjectLike":160}],182:[function(require,module,exports){
 'use strict';
 
+var _template = require('lodash/fp/template');
+
+var _template2 = _interopRequireDefault(_template);
+
 var _discussion = require('./utils/discussion');
+
+var _shortcut = require('./utils/shortcut');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 $(document).ready(function () {
   var username = '';
   var $discuss = $('.discuss');
 
-  (0, _discussion.renderMsgLeft)($discuss, "What is your name ?");
+  if (typeof localStorage != 'undefined') {
+    var localVars = JSON.parse(localStorage.getItem('jarvis'));
+
+    username = localVars && localVars.username;
+  }
+
+  (0, _discussion.renderMsgLeft)($discuss, !username ? 'What is your name ?' : 'Hi ' + username + '! How can i help you ?');
 
   $(document).on('keypress', '.editor input', function (e) {
     if (e.keyCode === 13) e.preventDefault();
@@ -6491,6 +6505,13 @@ $(document).ready(function () {
 
       if (!username) {
         username = value;
+
+        if (typeof localStorage != 'undefined') {
+          localStorage.setItem('jarvis', JSON.stringify({
+            'username': value
+          }));
+        }
+
         $.post('/reply', { 'username': username, 'message': 'my name is ' + username }).done(function (response) {
           (0, _discussion.renderMsgLeft)($discuss, response.reply);
         });
@@ -6498,15 +6519,32 @@ $(document).ready(function () {
         $.post('/reply', { 'username': username, 'message': value }).done(function (response) {
           (0, _discussion.renderMsgLeft)($discuss, response.reply);
 
-          if (response.ext) $('.extension').html(response.ext);
-          $('.nav-tabs a[href="#view"]').tab('show');
+          if (response.ext) {
+            $('.extension').html(response.ext);
+            $('.nav-tabs a[href="#view"]').tab('show');
+          }
         });
       }
     }
+  }).on('click', '#shortcut-submit', function (e) {
+    var name = $('#shortcut-name').val().toLowerCase();
+    var request = $('#shortcut-request').val();
+    var shortcutElement = (0, _shortcut.renderShortcut)(name, request);
+
+    $('#shortcuts').append(shortcutElement);
+    $('[data-toggle="tooltip"]').tooltip();
+    $('.nav-tabs a[href="#shortcuts"]').tab('show');
+    $('#addShortcutDialog').modal('hide');
+  });
+
+  $('#addShortcutDialog').on('show.bs.modal', function (e) {
+    var value = $('.editor input').val();
+
+    $('#shortcut-request').val(value);
   });
 });
 
-},{"./utils/discussion":183}],183:[function(require,module,exports){
+},{"./utils/discussion":183,"./utils/shortcut":184,"lodash/fp/template":146}],183:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6534,6 +6572,40 @@ function renderMsgRight($parent, message) {
 
 exports.renderMsgLeft = renderMsgLeft;
 exports.renderMsgRight = renderMsgRight;
+
+},{"lodash/fp/template":146}],184:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.runRequest = exports.renderShortcut = undefined;
+
+var _template = require('lodash/fp/template');
+
+var _template2 = _interopRequireDefault(_template);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function renderShortcut(name, request) {
+  var words = name.split(' ');
+  var firstChars = words.map(function (word) {
+    return word.charAt(0);
+  });
+  var sigle = firstChars.join('');
+  var shortcutTemplate = (0, _template2.default)('<div class="item" data-request="<%= data.request %>" data-toggle="tooltip" data-placement="bottom" title="<%= data.name %>">' + '<div class="item-name">' + '<%= data.sigle %>' + '</div>' + '</div>');
+
+  return shortcutTemplate({ data: {
+      name: name,
+      request: request,
+      sigle: sigle
+    } });
+}
+
+function runRequest($el) {}
+
+exports.renderShortcut = renderShortcut;
+exports.runRequest = runRequest;
 
 },{"lodash/fp/template":146}]},{},[182])
 

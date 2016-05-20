@@ -5,7 +5,7 @@ var yt = new Youtube();
 yt.setKey('AIzaSyA8UFoMWx8wWQxkCgri95mrXqwVILcFXqk');
 
 var ytListTemplate = template(
-  '<div class="panel panel-default">' +
+  '<div class="panel panel-default no-border">' +
     '<div class="panel-body">' +
       '<% data.videos.forEach(function(video) { %>' +
         '<div class="media">' +
@@ -21,7 +21,6 @@ var ytListTemplate = template(
     '</div>' +
   '</div>'
 );
-
 
 module.exports = function(rs) {
   rs.setSubroutine('youtube', function(rs, args) {

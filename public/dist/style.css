@@ -5843,6 +5843,28 @@ body {
   height: 100%;
   overflow-y: auto; }
 
+.no-border {
+  border: none; }
+
+.item {
+  margin: 8px;
+  padding: 8px;
+  float: left;
+  width: 80px;
+  height: 80px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer; }
+  .item .item-name {
+    margin-top: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    text-overflow: ellipsis; }
+
 .msg-container .msg-right, .msg-container .msg-left {
   display: flex; }
 
